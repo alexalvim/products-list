@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Product } from './pages/Product';
 import { ProductsList } from './pages/ProductsList';
+import { Cart } from './pages/Cart';
 
 const router = createBrowserRouter([
   {
@@ -12,8 +13,12 @@ const router = createBrowserRouter([
     element: <ProductsList />,
   },
   {
-    path: "products/:productId",
+    path: "/products/:productId",
     element: <Product />,
+  },
+  {
+    path: "/cart",
+    element: <Cart />,
   },
   {
     path: "/",

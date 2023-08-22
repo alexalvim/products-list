@@ -1,6 +1,7 @@
 export interface IProduct {
   label: string;
   imagePath: string;
+  priceCents: number;
   id: number;
 }
 
