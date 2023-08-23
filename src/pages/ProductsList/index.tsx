@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { getProducts } from "../../services/products"
+import { Header } from "../../components/Header";
 
 export const ProductsList = () => {
   const { data, isError, isLoading } = useQuery({ queryKey: ['getProducts'], queryFn: getProducts });
@@ -14,7 +15,8 @@ export const ProductsList = () => {
 
   return (
     <div>
-      <h1>ProductsList</h1>
+      <Header
+        label={'Lista de Produtos'}/>
       <ul>
         {data.map((p) => (<li>{p.label}</li>))}
       </ul>

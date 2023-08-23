@@ -1,3 +1,10 @@
+import { Header } from "../../components/Header"
+
 export const Cart = () => {
-  return (<>Cart</>)
+  return (
+    <div>
+      <Header
+        label={'Carrinho'}/>
+    </div>
+  )
 }
