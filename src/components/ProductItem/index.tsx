@@ -13,16 +13,12 @@ export const ProductItem = ({ product }: IProductItemProps) => {
       <ImageWrapper>
         <ProductImage src={product.imagePath} alt={`Imagem do ${product.label}`}/>
       </ImageWrapper>
-      <ProductLabel>
+      <ProductLabel to={`/products/${product.id}`}>
         {product.label}
       </ProductLabel>
       <ProductPrice>
         R$ <b>{formatCentsToCurrency(product.priceCents)}</b>
       </ProductPrice>
-      <div>
-        <Button
-          label={'Comprar'}/>
-      </div>
     </ContentWrapper>
   );
 }
