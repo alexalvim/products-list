@@ -1,10 +1,22 @@
 {
   "products": [
     {
-      "label": "Coca",
-      "imagePath": "Imagem da coca",
+      "label": "Coca Cola lata 350ml",
+      "imagePath": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/2560px-Coca-Cola_logo.svg.png",
       "priceCents": 1000,
       "id": 1
+    },
+    {
+      "label": "Guarana 2L",
+      "imagePath": "https://www.imigrantesbebidas.com.br/bebida/images/products/full/1885-refrigerante-guarana-antarctica-2l.jpg",
+      "priceCents": 1000,
+      "id": 2
+    },
+    {
+      "label": "Fanta Laranja 2L",
+      "imagePath": "https://www.imigrantesbebidas.com.br/bebida/images/products/full/1883-refrigerante-fanta-laranja-2l.jpg",
+      "priceCents": 1000,
+      "id": 3
     }
   ]
 }

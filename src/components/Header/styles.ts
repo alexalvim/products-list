@@ -6,12 +6,12 @@ import { typo } from '../../typo';
 export const ContentWrapper = styled.header`
   background-color: ${colors.mainColor};
   color: ${colors.lightestColor};
-  padding: ${spaces.base} ${spaces.small};
 `;
 
 export const ContentHolder = styled.div`
   margin: 0 auto;
   max-width: ${spaces.containerWidth};
+  padding: ${spaces.base} ${spaces.small};
   width: 90%;
 `;
 
