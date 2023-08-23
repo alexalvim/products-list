@@ -1,6 +1,5 @@
 import { IProduct } from "../../types";
 import { formatCentsToCurrency } from "../../utils";
-import { Button } from "../Button";
 import { ContentWrapper, ImageWrapper, ProductImage, ProductLabel, ProductPrice } from "./styles";
 
 interface IProductItemProps {
