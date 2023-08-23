@@ -1,3 +1,10 @@
 {
-  "products": []
+  "products": [
+    {
+      "label": "Coca",
+      "imagePath": "Imagem da coca",
+      "priceCents": 1000,
+      "id": 1
+    }
+  ]
 }

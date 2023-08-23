@@ -3,9 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+
 import { Product } from './pages/Product';
 import { ProductsList } from './pages/ProductsList';
 import { Cart } from './pages/Cart';
+
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
@@ -31,7 +38,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
