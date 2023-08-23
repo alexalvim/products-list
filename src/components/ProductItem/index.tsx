@@ -1,5 +1,6 @@
 import { IProduct } from "../../types";
 import { formatCentsToCurrency } from "../../utils";
+import { Button } from "../Button";
 import { ContentWrapper, ImageWrapper, ProductImage, ProductLabel, ProductPrice } from "./styles";
 
 interface IProductItemProps {
@@ -18,6 +19,10 @@ export const ProductItem = ({ product }: IProductItemProps) => {
       <ProductPrice>
         R$ <b>{formatCentsToCurrency(product.priceCents)}</b>
       </ProductPrice>
+      <div>
+        <Button
+          label={'Comprar'}/>
+      </div>
     </ContentWrapper>
   );
 }

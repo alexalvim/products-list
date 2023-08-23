@@ -35,8 +35,10 @@ export const ProductLabel = styled.h3`
 
 export const ProductPrice = styled.span`
   color: ${colors.darkestColor};
+  display: block;
   font-size: ${typo.small};
   font-weight: normal;
+  margin-bottom: ${spaces.small};
 
   b {
     font-size: ${typo.base};
