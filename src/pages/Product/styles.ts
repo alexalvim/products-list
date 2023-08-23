@@ -13,17 +13,21 @@ export const ContentWrapper = styled.div`
 
 export const ContentHolder = styled.div`
   display: flex;
+  flex-direction: column;
+
+  @media (min-width: 48rem) {
+    flex-direction: row;
+  }
 `;
 
 export const ProductImage = styled.img`
   height: 280px;
   width: 280px;
   object-fit: contain;
-  margin-bottom: ${spaces.base};
+  margin: 0 auto ${spaces.base} auto;
 
   @media(min-width: 48rem) {
-    margin-bottom: 0;
-    margin-right: ${spaces.large};
+    margin: 0 ${spaces.large} 0 0;
   }
 `;
 
@@ -52,4 +56,8 @@ export const BackLink = styled(Link)`
   font-size: ${typo.base};
   display: inline-block;
   margin-bottom: ${spaces.base};
+`;
+
+export const ButtonsWrapper = styled.div`
+  margin-top: ${spaces.base};
 `;
