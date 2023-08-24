@@ -4,4 +4,5 @@ export const colors = {
   mainColor: '#5959c7',
 
   lightGray: '#cdcdcd',
+  overlayGray: '#070707a3',
 }

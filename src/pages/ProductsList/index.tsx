@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query"
 import { getProducts } from "../../services/products"
 import { Header } from "../../components/Header";
-import { ContentWrapper, MaintList } from "./styles";
+import { ButtonWrapper, ContentWrapper, MaintList } from "./styles";
 import { ProductItem } from "../../components/ProductItem";
+import { Button } from "../../components/Button";
+import { Modal } from "../../components/Modal";
 
 export const ProductsList = () => {
   const { data, isError, isLoading } = useQuery({ queryKey: ['getProducts'], queryFn: getProducts });
@@ -28,6 +30,10 @@ export const ProductsList = () => {
             </li>
           ))}
         </MaintList>
+        <ButtonWrapper>
+          <Button
+            label={'Cadastrar Produto'}/>
+        </ButtonWrapper>
       </ContentWrapper>
     </div>
   );

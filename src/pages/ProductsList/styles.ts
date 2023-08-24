@@ -20,3 +20,13 @@ export const MaintList = styled.ul`
     }
   }
 `;
+
+export const ButtonWrapper = styled.div`
+  margin-top: ${spaces.base};
+  display: flex;
+  justify-content: center;
+
+  > button {
+    width: auto;
+  }
+`;
