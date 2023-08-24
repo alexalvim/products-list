@@ -7,11 +7,30 @@ import { formatCentsToCurrency } from "../../utils";
 import { Button } from "../../components/Button";
 import { Counter } from "../../components/Counter";
 import { useState } from "react";
+import { useCartStore } from "../../stores/cart";
 
 export const Product = () => {
   const { productId } = useParams();
+  const { cart, addProduct, updateProduct } = useCartStore()
   const { data, isError, isLoading } = useQuery({ queryKey: ['getProduct'], queryFn: () => getProduct(parseInt(productId as string)) });
   const [counterValue, setCounterValue] = useState<number>(1);
+
+  const handleClickAddButton = () => {
+    if(!data) { return }
+    const productInCart = cart.find((cp) => cp.id === data?.id);
+
+    if(productInCart) {
+      updateProduct({
+        ...data,
+        quantity: counterValue,
+      })
+    } else {
+      addProduct({
+        ...data,
+        quantity: counterValue,
+      });
+    }
+  }
 
   if(isLoading) {
     return <ContentWrapper>Carregando</ContentWrapper>
@@ -44,6 +63,7 @@ export const Product = () => {
               value={counterValue}/>
             <ButtonsWrapper>
               <Button
+                onClick={handleClickAddButton}
                 label={'Adicionar ao carrinho'}/>
             </ButtonsWrapper>
           </div>

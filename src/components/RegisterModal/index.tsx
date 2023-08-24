@@ -5,7 +5,7 @@ import { Field } from "../Field";
 import { Button } from "../Button";
 import { formatCurrencyToCents } from "../../utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ICreateProductProps, createProduct, getProducts } from "../../services/products";
+import { ICreateProductProps, createProduct } from "../../services/products";
 
 interface IRegisterModalProps {
   isOpened: boolean;
