@@ -9,7 +9,6 @@ export const CustomButton = styled.button`
   color: ${colors.lightestColor};
   font-size: ${typo.base};
   border-radius: 2px;
-  width: 100%;
   padding: ${spaces.small} ${spaces.base};
   cursor: pointer;
 `;

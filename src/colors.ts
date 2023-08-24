@@ -5,4 +5,5 @@ export const colors = {
 
   lightGray: '#cdcdcd',
   overlayGray: '#070707a3',
+  dangerRed: "#ff0000",
 }

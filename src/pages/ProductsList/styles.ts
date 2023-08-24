@@ -9,6 +9,10 @@ export const ContentWrapper = styled.div`
 `;
 
 export const MaintList = styled.ul`
+  > li {
+    margin-bottom: ${spaces.base};
+  }
+
   @media(min-width: 48rem) {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -17,6 +21,7 @@ export const MaintList = styled.ul`
 
     > li {
       min-width: 0;
+      margin-bottom: 0;
     }
   }
 `;
@@ -25,8 +30,4 @@ export const ButtonWrapper = styled.div`
   margin-top: ${spaces.base};
   display: flex;
   justify-content: center;
-
-  > button {
-    width: auto;
-  }
 `;

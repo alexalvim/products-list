@@ -4,10 +4,12 @@ import { Header } from "../../components/Header";
 import { ButtonWrapper, ContentWrapper, MaintList } from "./styles";
 import { ProductItem } from "../../components/ProductItem";
 import { Button } from "../../components/Button";
-import { Modal } from "../../components/Modal";
+import { RegisterModal } from "../../components/RegisterModal";
+import { useState } from "react";
 
 export const ProductsList = () => {
   const { data, isError, isLoading } = useQuery({ queryKey: ['getProducts'], queryFn: getProducts });
+  const [openedRegisterModal, setOpenedRegisterModal] = useState<boolean>(false);
 
   if(isLoading) {
     return <ContentWrapper>Carregando</ContentWrapper>
@@ -32,9 +34,13 @@ export const ProductsList = () => {
         </MaintList>
         <ButtonWrapper>
           <Button
+            onClick={() => setOpenedRegisterModal(true)}
             label={'Cadastrar Produto'}/>
         </ButtonWrapper>
       </ContentWrapper>
+      <RegisterModal
+        isOpened={openedRegisterModal}
+        onClose={() => {setOpenedRegisterModal(false)}}/>
     </div>
   );
 }

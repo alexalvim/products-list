@@ -21,25 +21,20 @@ export const getProduct = (productId: number): Promise<IProduct> | null => {
   }
 }
 
-interface ICreateProductProps {
+export interface ICreateProductProps {
   label: string;
   imagePath: string;
   priceCents: number;
 }
 
-export const createProduct = (product: ICreateProductProps): Promise<IProduct> | null => {
-  try {
-    return fetch(`${BASE_URL}/products`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: JSON.stringify(product)
-    }).then((res) => res.json())
-  } catch (e: IRequestError | unknown) {
-    reportError({ message: (e as IRequestError).message || 'Request Error'})
-    return null;
-  }
+export const createProduct = (product: ICreateProductProps): Promise<Response> => {
+  return fetch(`${BASE_URL}/products`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8'
+    },
+    body: JSON.stringify(product)
+  });
 }
 
 export const updateProduct = (product: IProduct): Promise<IProduct> | null => {
