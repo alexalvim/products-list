@@ -22,6 +22,7 @@ export const ProductsList = () => {
   return (
     <div>
       <Header
+        showCartLink={true}
         label={'Lista de Produtos'}/>
       <ContentWrapper>
         <MaintList>

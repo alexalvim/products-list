@@ -76,6 +76,7 @@ export const Product = () => {
   return (
     <div>
       <Header
+        showCartLink={true}
         label={'Produto'}/>
       <ContentWrapper>
         <BackLink to={'/products'}>
