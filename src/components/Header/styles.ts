@@ -12,10 +12,14 @@ export const ContentWrapper = styled.header`
 export const ContentHolder = styled.div`
   margin: 0 auto;
   max-width: ${spaces.containerWidth};
-  padding: ${spaces.base} ${spaces.small};
-  width: 90%;
+  padding: ${spaces.base} ${spaces.base};
   display: flex;
   align-items: baseline;
+
+  @media (min-width: 48rem) {
+    width: 90%;
+    padding: ${spaces.base} ${spaces.small};
+  }
 `;
 
 export const HeaderTitle = styled.h1`

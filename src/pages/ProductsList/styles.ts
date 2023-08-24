@@ -5,7 +5,10 @@ export const ContentWrapper = styled.div`
   margin: 0 auto;
   max-width: ${spaces.containerWidth};
   padding: ${spaces.large} ${spaces.base};
-  width: 90%;
+  
+  @media (min-width: 48rem) {
+    width: 90%;
+  }
 `;
 
 export const MaintList = styled.ul`
