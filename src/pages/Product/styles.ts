@@ -61,3 +61,24 @@ export const BackLink = styled(Link)`
 export const ButtonsWrapper = styled.div`
   margin-top: ${spaces.base};
 `;
+
+export const ActionButtons = styled.div`
+  margin-top: ${spaces.large};
+
+  > button {
+    margin-right: ${spaces.base};
+    margin-bottom: ${spaces.base};
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+`;
+
+
+export const ActionMessage = styled.span`
+  margin-top: ${spaces.large};
+  display: block;
+  font-size: ${typo.base};
+  color: ${colors.darkestColor};
+`;

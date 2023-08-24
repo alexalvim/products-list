@@ -3,13 +3,16 @@ import { Modal } from "../Modal"
 import { ButtonsWrapper, CustomSubmit, FieldsWrapper, ModalTitle } from "./styles";
 import { Field } from "../Field";
 import { Button } from "../Button";
-import { formatCurrencyToCents } from "../../utils";
+import { formatCurrencyToCents, formatCentsToCurrency } from "../../utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ICreateProductProps, createProduct } from "../../services/products";
+import { ICreateProductProps, createProduct, updateProduct } from "../../services/products";
+import { IProduct } from "../../types";
 
 interface IRegisterModalProps {
   isOpened: boolean;
   onClose: () => void;
+  title: string;
+  defaultProduct?: IProduct;
 }
 
 interface IRegisterInputs {
@@ -18,10 +21,16 @@ interface IRegisterInputs {
   price: string;
 };
 
-export const RegisterModal = ({ isOpened, onClose }: IRegisterModalProps) => {
+export const RegisterModal = ({ isOpened, onClose, defaultProduct, title }: IRegisterModalProps) => {
   const queryClient = useQueryClient()
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<IRegisterInputs>();
-  const { mutate } = useMutation({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<IRegisterInputs>({
+    defaultValues: {
+      imagePath: defaultProduct ? defaultProduct.imagePath : '',
+      label: defaultProduct ? defaultProduct.label : '',
+      price: defaultProduct ? formatCentsToCurrency(defaultProduct.priceCents) : '',
+    }
+  });
+  const { mutate: creationMutate } = useMutation({
     mutationFn: (newProduct: ICreateProductProps) => {
       return createProduct(newProduct);
     },
@@ -31,17 +40,39 @@ export const RegisterModal = ({ isOpened, onClose }: IRegisterModalProps) => {
       reset();
     },
   })
+
+  const { mutate: updateMutate } = useMutation({
+    mutationFn: (product: IProduct) => {
+      return updateProduct(product);
+    },
+    onSuccess:  () => {
+      queryClient.invalidateQueries({ queryKey: ['getProducts'] });
+      queryClient.invalidateQueries({ queryKey: ['getProduct'] });
+      onClose();
+      reset();
+    },
+  })
+
   const onSubmit: SubmitHandler<IRegisterInputs> =  (data) => {
-    mutate({
-      label: data.label,
-      imagePath: data.imagePath,
-      priceCents: formatCurrencyToCents(data.price.toString())
-    })
+    if(defaultProduct) {
+      updateMutate({
+        label: data.label,
+        imagePath: data.imagePath,
+        priceCents: formatCurrencyToCents(data.price.toString()),
+        id: defaultProduct.id
+      })
+    } else {
+      creationMutate({
+        label: data.label,
+        imagePath: data.imagePath,
+        priceCents: formatCurrencyToCents(data.price.toString())
+      })
+    }
   }
 
   return (
     <Modal isOpened={isOpened} onClose={onClose}>
-      <ModalTitle>Novo Produto</ModalTitle>
+      <ModalTitle>{title}</ModalTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldsWrapper>
           <Field

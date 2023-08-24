@@ -5,6 +5,7 @@ interface ICartStore {
   cart: ICartProduct[];
   addProduct: (cartProduct: ICartProduct) => void;
   updateProduct: (cartProduct: ICartProduct) => void;
+  removeProduct: (cartProduct: number) => void;
 }
 
 export const useCartStore = create<ICartStore>((set) => ({
@@ -16,5 +17,9 @@ export const useCartStore = create<ICartStore>((set) => ({
 
   updateProduct: (cartProduct: ICartProduct) => {
     set((state) => ({ cart: [...state.cart.filter((cp) => cp.id !== cartProduct.id), cartProduct] }))
+  },
+
+  removeProduct: (cartProductId) => {
+    set((state) => ({ cart: [...state.cart.filter((cp) => cp.id !== cartProductId)] }))
   }
 }))

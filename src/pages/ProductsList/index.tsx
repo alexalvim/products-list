@@ -39,6 +39,7 @@ export const ProductsList = () => {
         </ButtonWrapper>
       </ContentWrapper>
       <RegisterModal
+        title={'Novo Produto'}
         isOpened={openedRegisterModal}
         onClose={() => {setOpenedRegisterModal(false)}}/>
     </div>
