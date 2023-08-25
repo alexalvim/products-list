@@ -5,7 +5,7 @@ interface ICartStore {
   cart: ICartProduct[];
   addProduct: (cartProduct: ICartProduct) => void;
   updateProduct: (cartProduct: ICartProduct) => void;
-  removeProduct: (cartProduct: number) => void;
+  removeProduct: (cartProduct: number | string) => void;
 }
 
 export const useCartStore = create<ICartStore>((set) => ({

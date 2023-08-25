@@ -6,7 +6,7 @@ import { Button } from "../Button"
 
 interface ICartItemProps {
   product: ICartProduct;
-  onRemove: (id: number) => void;
+  onRemove: (id: number | string) => void;
 }
 
 export const CartItem = ({ product, onRemove }: ICartItemProps) => {

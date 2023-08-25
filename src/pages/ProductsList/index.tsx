@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { UseQueryResult, useQuery } from "@tanstack/react-query"
 import { getProducts } from "../../services/products"
 import { Header } from "../../components/Header";
 import { ButtonWrapper, ContentWrapper, MaintList } from "./styles";
@@ -6,17 +6,32 @@ import { ProductItem } from "../../components/ProductItem";
 import { Button } from "../../components/Button";
 import { RegisterModal } from "../../components/RegisterModal";
 import { useState } from "react";
+import { IStripeProductResponse } from "../../types";
 
 export const ProductsList = () => {
-  const { data, isError, isLoading } = useQuery({ queryKey: ['getProducts'], queryFn: getProducts });
+  const { data: products, isError, isLoading }: UseQueryResult<IStripeProductResponse> = useQuery({ queryKey: ['getProducts'], queryFn: getProducts });
   const [openedRegisterModal, setOpenedRegisterModal] = useState<boolean>(false);
 
   if(isLoading) {
-    return <ContentWrapper>Carregando</ContentWrapper>
+    return (
+      <div>
+        <Header
+          showCartLink={true}
+          label={'Lista de Produtos'}/>
+        <ContentWrapper>Carregando</ContentWrapper>
+      </div>
+    );
   }
 
   if(isError) {
-    return <ContentWrapper>Erro</ContentWrapper>
+    return (
+      <div>
+        <Header
+          showCartLink={true}
+          label={'Lista de Produtos'}/>
+        <ContentWrapper>Erro ao carregar produtos</ContentWrapper>
+      </div>
+    );
   }
 
   return (
@@ -26,10 +41,15 @@ export const ProductsList = () => {
         label={'Lista de Produtos'}/>
       <ContentWrapper>
         <MaintList>
-          {data.map((p) => (
+          {products.data.map((p) => (
             <li key={p.id}>
               <ProductItem
-                product={p}/>
+                product={{
+                  label: p.name,
+                  imagePath: p.images[0],
+                  priceCents: p.default_price.unit_amount,
+                  id: p.id,
+                }}/>
             </li>
           ))}
         </MaintList>

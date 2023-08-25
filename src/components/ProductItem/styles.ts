@@ -34,6 +34,7 @@ export const ProductLabel = styled(Link)`
   text-overflow: ellipsis;
   margin-bottom: ${spaces.small};
   text-decoration: none;
+  height: 20px;
 
   &:hover {
     text-decoration: underline;

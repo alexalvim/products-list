@@ -1,0 +1,6 @@
+const stripe = {
+  publicKey: 'pk_test_51NijxgCPPUDHi99Cg1Juj4YCDXh3H4lLhbzs2afMSV8RFGDV5D1hlOMFIjd3P5jOJsoLxMGu3o8OiXPeFjxz1LZL00YYAnw4DT',
+  secretKey: 'sk_test_51NijxgCPPUDHi99Cek7aQnQJi4yUMNgzA5Wn9vPhv7VvZOrlB95ibI7ar1BJgEOMn3Nw5MWAqJh0Uq6W8E0j0RI100yL9rTVOQ'
+}
+
+export default stripe;

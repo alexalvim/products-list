@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { UseQueryResult, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Header } from "../../components/Header"
 import { getProduct, removeProductById } from "../../services/products";
 import { useNavigate, useParams } from "react-router-dom";
@@ -9,20 +9,21 @@ import { Counter } from "../../components/Counter";
 import { useState } from "react";
 import { useCartStore } from "../../stores/cart";
 import { RegisterModal } from "../../components/RegisterModal";
+import { IStripeProduct } from "../../types";
 
 export const Product = () => {
   const { productId } = useParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { cart, addProduct, updateProduct, removeProduct } = useCartStore()
-  const { data, isError, isLoading } = useQuery({ queryKey: ['getProduct'], queryFn: () => getProduct(parseInt(productId as string)) });
+  const { data: product, isError, isLoading }: UseQueryResult<IStripeProduct> = useQuery({ queryKey: ['getProduct'], queryFn: () => getProduct(productId as string) });
   const [counterValue, setCounterValue] = useState<number>(cart.find((cp) => cp.id.toString() === productId)?.quantity || 1);
   const [openedRegisterModal, setOpenedRegisterModal] = useState<boolean>(false);
   const existingCartProduct = cart.find((cp) => cp.id.toString() === productId);
 
   const { mutate } = useMutation({
-    mutationFn: (productId: number) => {
-      return removeProductById(productId);
+    mutationFn: ({ id, priceId }: { id: string, priceId: string }) => {
+      return removeProductById(id, priceId);
     },
     onSuccess:  () => {
       queryClient.invalidateQueries({ queryKey: ['getProducts'] });
@@ -31,24 +32,30 @@ export const Product = () => {
   })
 
   const handleClickAddButton = () => {
-    if(!data) { return }
-    const productInCart = cart.find((cp) => cp.id === data?.id);
+    if(!product) { return }
+    const productInCart = cart.find((cp) => cp.id === product?.id);
 
     if(productInCart) {
       if(counterValue === productInCart.quantity) {
         return;
       }
       if(counterValue === 0) {
-        removeProduct(data.id);
+        removeProduct(product.id);
       } else {
         updateProduct({
-          ...data,
+          id: product.id,
+          label: product.name,
+          imagePath: product.images[0],
+          priceCents: product.default_price.unit_amount,
           quantity: counterValue,
         })
       }
     } else {
       addProduct({
-        ...data,
+        id: product.id,
+        label: product.name,
+        imagePath: product.images[0],
+        priceCents: product.default_price.unit_amount,
         quantity: counterValue,
       });
     }
@@ -66,11 +73,29 @@ export const Product = () => {
   }
 
   if(isLoading) {
-    return <ContentWrapper>Carregando</ContentWrapper>
+    return (
+      <div>
+        <Header
+          showCartLink={true}
+          label={'Produto'}/>
+        <ContentWrapper>
+          Carregando
+        </ContentWrapper>
+      </div>
+    )
   }
 
-  if(isError || !data) {
-    return <ContentWrapper>Erro</ContentWrapper>
+  if(isError || !product || !product.active) {
+    return (
+      <div>
+        <Header
+          showCartLink={true}
+          label={'Produto'}/>
+        <ContentWrapper>
+          Erro ao buscar produto
+        </ContentWrapper>
+      </div>
+    )
   }
 
   return (
@@ -83,13 +108,13 @@ export const Product = () => {
           Voltar para listagem
         </BackLink>
         <ContentHolder>
-          <ProductImage src={data.imagePath} />
+          <ProductImage src={product.images[0]} />
           <div>
             <ProductTitle>
-              {data.label}
+              {product.name}
             </ProductTitle>
             <ProductPrice>
-              R$ <b>{formatCentsToCurrency(data.priceCents)}</b>
+              R$ <b>{formatCentsToCurrency(product.default_price.unit_amount)}</b>
             </ProductPrice>
             <Counter
               onMinus={() => { if(counterValue > 0) { setCounterValue((cv) => cv - 1) }}}
@@ -102,7 +127,7 @@ export const Product = () => {
             </ButtonsWrapper>
           </div>
         </ContentHolder>
-        {cart.find((cp) => cp.id === data?.id) ? (
+        {cart.find((cp) => cp.id === product.id) ? (
           <ActionMessage>
             Exclua o produto do carrinho para habilitar ações
           </ActionMessage>
@@ -110,7 +135,7 @@ export const Product = () => {
           <ActionButtons>
             <Button
               onClick={() => {
-                mutate(data.id)
+                mutate({ id: product.id, priceId: product.default_price.id })
               }}
               label={'Remover Produto'}/>
             <Button
@@ -121,7 +146,12 @@ export const Product = () => {
       </ContentWrapper>
       <RegisterModal
         title={'Atualizar Produto'}
-        defaultProduct={data}
+        defaultProduct={{
+          label: product.name,
+          imagePath: product.images[0],
+          priceCents: product.default_price.unit_amount,
+          id: product.id,
+        }}
         isOpened={openedRegisterModal}
         onClose={() => {setOpenedRegisterModal(false)}}/>
     </div>

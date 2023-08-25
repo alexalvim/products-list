@@ -32,7 +32,7 @@ export const RegisterModal = ({ isOpened, onClose, defaultProduct, title }: IReg
   });
   const { mutate: creationMutate } = useMutation({
     mutationFn: (newProduct: ICreateProductProps) => {
-      return createProduct(newProduct);
+      return createProduct(newProduct)
     },
     onSuccess:  () => {
       queryClient.invalidateQueries({ queryKey: ['getProducts'] });
@@ -59,7 +59,7 @@ export const RegisterModal = ({ isOpened, onClose, defaultProduct, title }: IReg
         label: data.label,
         imagePath: data.imagePath,
         priceCents: formatCurrencyToCents(data.price.toString()),
-        id: defaultProduct.id
+        id: defaultProduct.id,
       })
     } else {
       creationMutate({
