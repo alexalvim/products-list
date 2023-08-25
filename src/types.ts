@@ -10,6 +10,7 @@ export interface ICartProduct {
   imagePath: string;
   priceCents: number;
   id: number | string;
+  priceId: string;
   quantity: number;
 }
 

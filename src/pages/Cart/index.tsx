@@ -5,9 +5,18 @@ import { BackLink, CartList, ContentWrapper, EmptyMessage, PurchaseLine } from "
 import { CartItem } from "../../components/CartItem"
 import { formatCentsToCurrency } from "../../utils";
 import { Button } from "../../components/Button"
+import { createCheckout } from "../../services/products"
+import { useEffect } from "react"
 
 export const Cart = () => {
-  const { cart, removeProduct } = useCartStore()
+  const { cart, removeProduct, refreshCart } = useCartStore();
+
+  useEffect(() => {
+    if(cart.length === 0) {
+      refreshCart();
+    }
+  }, [])
+
   return (
     <>
       <Header
@@ -34,9 +43,16 @@ export const Cart = () => {
               </CartList>
               <PurchaseLine>
                 <span>
-                  Total: {formatCentsToCurrency(cart.reduce((acc, cp) => acc + cp.priceCents * cp.quantity, 0))}
+                  Total: R$ {formatCentsToCurrency(cart.reduce((acc, cp) => acc + cp.priceCents * cp.quantity, 0))}
                 </span>
                 <Button
+                  onClick={async () => {
+                    const checkoutUrl = await createCheckout(cart)
+
+                    if(checkoutUrl) {
+                      window.location.href = checkoutUrl;
+                    }
+                  }}
                   label={"Finalizar compra"}/>
               </PurchaseLine>
             </>

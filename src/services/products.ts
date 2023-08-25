@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { IProduct } from "../types"
+import { ICartProduct, IProduct } from "../types"
 import stripeConfig from '../config/stripe';
 
 const stripe = new Stripe(stripeConfig.secretKey, {
@@ -60,5 +60,18 @@ export const removeProductById = (productId: string, priceId: string) => {
   return stripe.products.update(productId, {
     active: false
   });
+}
 
+export const createCheckout = async (cart: ICartProduct[]) => {
+  const session = await stripe.checkout.sessions.create({
+    line_items: cart.map((cp) => ({
+      price: cp.priceId,
+      quantity: cp.quantity,
+    })),
+    mode: 'payment',
+    success_url: `http://localhost:3000/success`,
+    cancel_url: `http://localhost:3000/cart`,
+  });
+
+  return session.url;
 }

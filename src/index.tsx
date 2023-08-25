@@ -11,6 +11,7 @@ import {
 import { Product } from './pages/Product';
 import { ProductsList } from './pages/ProductsList';
 import { Cart } from './pages/Cart';
+import { Success } from './pages/Success';
 
 const queryClient = new QueryClient()
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/cart",
     element: <Cart />,
+  },
+  {
+    path: "/success",
+    element: <Success />,
   },
   {
     path: "/",

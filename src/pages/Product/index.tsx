@@ -6,7 +6,7 @@ import { ActionButtons, ActionMessage, BackLink, ButtonsWrapper, ContentHolder, 
 import { formatCentsToCurrency } from "../../utils";
 import { Button } from "../../components/Button";
 import { Counter } from "../../components/Counter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCartStore } from "../../stores/cart";
 import { RegisterModal } from "../../components/RegisterModal";
 import { IStripeProduct } from "../../types";
@@ -15,11 +15,17 @@ export const Product = () => {
   const { productId } = useParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { cart, addProduct, updateProduct, removeProduct } = useCartStore()
+  const { cart, addProduct, updateProduct, removeProduct, refreshCart } = useCartStore()
   const { data: product, isError, isLoading }: UseQueryResult<IStripeProduct> = useQuery({ queryKey: ['getProduct'], queryFn: () => getProduct(productId as string) });
   const [counterValue, setCounterValue] = useState<number>(cart.find((cp) => cp.id.toString() === productId)?.quantity || 1);
   const [openedRegisterModal, setOpenedRegisterModal] = useState<boolean>(false);
   const existingCartProduct = cart.find((cp) => cp.id.toString() === productId);
+
+  useEffect(() => {
+    if(cart.length === 0) {
+      refreshCart();
+    }
+  }, [])
 
   const { mutate } = useMutation({
     mutationFn: ({ id, priceId }: { id: string, priceId: string }) => {
@@ -48,6 +54,7 @@ export const Product = () => {
           imagePath: product.images[0],
           priceCents: product.default_price.unit_amount,
           quantity: counterValue,
+          priceId: product.default_price.id,
         })
       }
     } else {
@@ -57,6 +64,7 @@ export const Product = () => {
         imagePath: product.images[0],
         priceCents: product.default_price.unit_amount,
         quantity: counterValue,
+        priceId: product.default_price.id,
       });
     }
   }
@@ -72,7 +80,7 @@ export const Product = () => {
     return 'Adicionar ao carrinho'
   }
 
-  if(isLoading) {
+  if(isLoading || (product && product.id !== productId)) {
     return (
       <div>
         <Header
