@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { spaces } from '../../spaces';
+import { colors } from '../../colors';
+import { typo } from '../../typo';
 
 export const ContentWrapper = styled.div`
   margin: 0 auto;
@@ -33,4 +35,10 @@ export const ButtonWrapper = styled.div`
   margin-top: ${spaces.base};
   display: flex;
   justify-content: center;
+`;
+
+export const EmptyStateMessage = styled.span`
+  display: block;
+  color: ${colors.darkestColor};
+  font-size: ${typo.base};
 `;
