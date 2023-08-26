@@ -6,13 +6,13 @@ import { Button } from "../Button"
 
 interface ICartItemProps {
   product: ICartProduct;
-  onRemove: (id: number | string) => void;
+  onRemove: (id: string) => void;
 }
 
 export const CartItem = ({ product, onRemove }: ICartItemProps) => {
   return (
     <ContentWrapper>
-      <ProductImage src={product.imagePath} alt={`Imagem dom ${product.label}`} />
+      <ProductImage src={product.imagePath} alt={`Imagem do ${product.label}`} />
       <ContentHolder>
         <div>
           <ProductLabel>
