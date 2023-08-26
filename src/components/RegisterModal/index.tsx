@@ -91,7 +91,12 @@ export const RegisterModal = ({ isOpened, onClose, defaultProduct, title }: IReg
           <Field
             error={errors.price || null}
             label="Preço"
-            inputProps={{...register("price", { required: true }), type: 'text'}} />
+            inputProps={{
+              ...register("price", { 
+                required: true,
+                pattern: /^(0|[1-9]\d*)(,\d+)?$/
+              }),
+              type: 'text'}}/>
         </FieldsWrapper>
         
         {
