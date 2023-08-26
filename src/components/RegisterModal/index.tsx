@@ -1,12 +1,13 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Modal } from "../Modal"
-import { ButtonsWrapper, CustomSubmit, FieldsWrapper, ModalTitle } from "./styles";
+import { ButtonsWrapper, CustomSubmit, FieldsWrapper, ModalTitle, SavingMessage } from "./styles";
 import { Field } from "../Field";
 import { Button } from "../Button";
 import { formatCurrencyToCents, formatCentsToCurrency } from "../../utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ICreateProductProps, createProduct, updateProduct } from "../../services/products";
 import { IProduct } from "../../types";
+import { useState } from "react";
 
 interface IRegisterModalProps {
   isOpened: boolean;
@@ -23,6 +24,7 @@ interface IRegisterInputs {
 
 export const RegisterModal = ({ isOpened, onClose, defaultProduct, title }: IRegisterModalProps) => {
   const queryClient = useQueryClient()
+  const [isSaving, setIsSaving] = useState(false);
   const { register, handleSubmit, reset, formState: { errors } } = useForm<IRegisterInputs>({
     defaultValues: {
       imagePath: defaultProduct ? defaultProduct.imagePath : '',
@@ -36,6 +38,7 @@ export const RegisterModal = ({ isOpened, onClose, defaultProduct, title }: IReg
     },
     onSuccess:  () => {
       queryClient.invalidateQueries({ queryKey: ['getProducts'] });
+      setIsSaving(false);
       onClose();
       reset();
     },
@@ -48,12 +51,14 @@ export const RegisterModal = ({ isOpened, onClose, defaultProduct, title }: IReg
     onSuccess:  () => {
       queryClient.invalidateQueries({ queryKey: ['getProducts'] });
       queryClient.invalidateQueries({ queryKey: ['getProduct'] });
+      setIsSaving(false);
       onClose();
       reset();
     },
   })
 
   const onSubmit: SubmitHandler<IRegisterInputs> =  (data) => {
+    setIsSaving(true);
     if(defaultProduct) {
       updateMutate({
         label: data.label,
@@ -89,12 +94,19 @@ export const RegisterModal = ({ isOpened, onClose, defaultProduct, title }: IReg
             inputProps={{...register("price", { required: true }), type: 'text'}} />
         </FieldsWrapper>
         
-        <ButtonsWrapper>
-          <Button
-            onClick={onClose}
-            label={"Fechar"}/>
-          <CustomSubmit type="submit" />
-        </ButtonsWrapper>
+        {
+          !isSaving ?
+          <ButtonsWrapper>
+            <Button
+              onClick={onClose}
+              label={"Fechar"}/>
+            <CustomSubmit value="Salvar" type="submit" />
+          </ButtonsWrapper> : (
+            <SavingMessage>
+              Salvando...
+            </SavingMessage>
+          )
+        }
       </form>
     </Modal>
   )

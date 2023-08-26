@@ -26,7 +26,7 @@ export const ButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-`
+`;
 
 export const CustomSubmit = styled.input`
   background-color: ${colors.mainColor};
@@ -36,4 +36,10 @@ export const CustomSubmit = styled.input`
   border-radius: 2px;
   padding: ${spaces.small} ${spaces.base};
   cursor: pointer;
+`;
+
+export const SavingMessage = styled.span`
+  color: ${colors.darkestColor};
+  font-size: ${typo.base};
+  display: block;
 `

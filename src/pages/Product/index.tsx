@@ -28,8 +28,8 @@ export const Product = () => {
   }, [])
 
   const { mutate } = useMutation({
-    mutationFn: ({ id, priceId }: { id: string, priceId: string }) => {
-      return removeProductById(id, priceId);
+    mutationFn: (id: string) => {
+      return removeProductById(id);
     },
     onSuccess:  () => {
       queryClient.invalidateQueries({ queryKey: ['getProducts'] });
@@ -143,7 +143,7 @@ export const Product = () => {
           <ActionButtons>
             <Button
               onClick={() => {
-                mutate({ id: product.id, priceId: product.default_price.id })
+                mutate(product.id)
               }}
               label={'Remover Produto'}/>
             <Button

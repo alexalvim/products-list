@@ -56,7 +56,7 @@ export const updateProduct = async (product: IProduct) => {
   )
 }
 
-export const removeProductById = (productId: string, priceId: string) => {
+export const removeProductById = (productId: string) => {
   return stripe.products.update(productId, {
     active: false
   });
