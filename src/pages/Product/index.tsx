@@ -72,12 +72,12 @@ export const Product = () => {
   const getButtonLabel = () => {
     if(existingCartProduct) {
       if(counterValue === 0) {
-        return 'Remover do carrinho'
+        return 'Remover do carrinho';
       }
-      return 'Atualizar carrinho'
+      return 'Atualizar carrinho';
     }
 
-    return 'Adicionar ao carrinho'
+    return 'Adicionar ao carrinho';
   }
 
   if(isLoading || (product && product.id !== productId)) {

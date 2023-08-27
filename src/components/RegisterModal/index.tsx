@@ -53,7 +53,6 @@ export const RegisterModal = ({ isOpened, onClose, defaultProduct, title }: IReg
       queryClient.invalidateQueries({ queryKey: ['getProduct'] });
       setIsSaving(false);
       onClose();
-      reset();
     },
   })
 
@@ -105,7 +104,8 @@ export const RegisterModal = ({ isOpened, onClose, defaultProduct, title }: IReg
             inputProps={{
               ...register("price", { 
                 required: true,
-                pattern: /^(0|[1-9]\d*)(,\d+)?$/
+                pattern: /^(0|[1-9]\d*)(,\d+)?$/,
+                min: 1
               }),
               type: 'text'}}
               customErrorMessages={{

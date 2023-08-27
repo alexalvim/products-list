@@ -126,4 +126,38 @@ describe('Field', () => {
 
     expect(errorText).toBeInTheDocument();
   });
+
+  it('should render correctly with default min error', () => {
+    const mockedProps = {
+      label: 'Test',
+      inputProps: { type: 'text' },
+      error: { type: 'min' },
+    }
+    render(
+      <Field
+        {...mockedProps}/>
+    );
+    const errorText = screen.getByText('Valor minimo não atingido!');
+
+    expect(errorText).toBeInTheDocument();
+  });
+
+  it('should render correctly with custom min error', () => {
+    const customErrorText = 'custom min'
+    const mockedProps = {
+      label: 'Test',
+      inputProps: { type: 'text' },
+      error: { type: 'min' },
+      customErrorMessages: {
+        min: customErrorText,
+      }
+    }
+    render(
+      <Field
+        {...mockedProps}/>
+    );
+    const errorText = screen.getByText(customErrorText);
+
+    expect(errorText).toBeInTheDocument();
+  });
 });

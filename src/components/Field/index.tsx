@@ -23,6 +23,9 @@ export const Field = ({ label, inputProps, error, customErrorMessages }: IFieldP
           {error.type === 'pattern' ?
             (customErrorMessages && customErrorMessages['pattern']) ||
             'Valor digitado não corresponde com o esperado nesse campo!' : null}
+          {error.type === 'min' ?
+            (customErrorMessages && customErrorMessages['min']) ||
+            'Valor minimo não atingido!' : null}
         </ErrorMessage>
       : null}
     </ContentWrapper>
