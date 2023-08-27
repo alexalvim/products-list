@@ -12,7 +12,7 @@ export const Modal = ({ children, isOpened, onClose }: IModalProps) => {
   }
 
   return (
-    <ContentWrapper data-testId={'modal-overlay'} onClick={onClose}>
+    <ContentWrapper data-testid={'modal-overlay'} onClick={onClose}>
       <Box onClick={e => e.stopPropagation()}>
         {children}
       </Box>

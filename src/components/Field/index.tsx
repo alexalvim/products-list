@@ -11,7 +11,7 @@ export const Field = ({ label, inputProps, error, customErrorMessages }: IFieldP
   return (
     <ContentWrapper>
       <TextLabel>{label}</TextLabel>
-      <CustomInput data-testId={'field-input'} {...inputProps}/>
+      <CustomInput data-testid={'field-input'} {...inputProps}/>
       {error ?
         <ErrorMessage>
           {error.type === 'required' ?
