@@ -57,6 +57,11 @@ export const RegisterModal = ({ isOpened, onClose, defaultProduct, title }: IReg
     },
   })
 
+  const handleClose = () => {
+    reset();
+    onClose();
+  }
+
   const onSubmit: SubmitHandler<IRegisterInputs> =  (data) => {
     setIsSaving(true);
     if(defaultProduct) {
@@ -76,34 +81,43 @@ export const RegisterModal = ({ isOpened, onClose, defaultProduct, title }: IReg
   }
 
   return (
-    <Modal isOpened={isOpened} onClose={onClose}>
+    <Modal isOpened={isOpened} onClose={handleClose}>
       <ModalTitle>{title}</ModalTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldsWrapper>
           <Field
             error={errors.label || null}
             label="Nome do produto"
-            inputProps={{...register("label", { required: true, minLength: 3 }), type: 'text'}} />
+            inputProps={{...register("label", { required: true, minLength: 3 }), type: 'text'}}
+            customErrorMessages={{
+              minLength: 'Esperado ao menos 3 caracteres neste campo'
+            }}/>
           <Field
             error={errors.imagePath || null}
             label="URL da imagem"
-            inputProps={{...register("imagePath", { required: true, minLength: 10 }), type: 'text'}} />
+            inputProps={{...register("imagePath", { required: true, minLength: 10 }), type: 'text'}}
+            customErrorMessages={{
+              minLength: 'Esperado ao menos 10 caracteres neste campo'
+            }}/>
           <Field
             error={errors.price || null}
-            label="Preço"
+            label="Preço(em reais)"
             inputProps={{
               ...register("price", { 
                 required: true,
                 pattern: /^(0|[1-9]\d*)(,\d+)?$/
               }),
-              type: 'text'}}/>
+              type: 'text'}}
+              customErrorMessages={{
+                pattern: 'Este campo aceita apenas números'
+              }}/>
         </FieldsWrapper>
         
         {
           !isSaving ?
           <ButtonsWrapper>
             <Button
-              onClick={onClose}
+              onClick={handleClose}
               label={"Fechar"}/>
             <CustomSubmit value="Salvar" type="submit" />
           </ButtonsWrapper> : (
