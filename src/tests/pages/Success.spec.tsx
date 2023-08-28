@@ -12,7 +12,7 @@ jest.mock('../../stores/cart', () => ({
  }));
 
 describe('Success', () => {
-  it('should render component correctly', () => {
+  it('should render page correctly', () => {
     render(
       <MemoryRouter>
         <Success />
